@@ -25,14 +25,14 @@ pipeline {
 		disableConcurrentBuilds()
 	}
 	stages {
-		stage ('Clean Checkout') {
+/*		stage ('Clean Checkout') {
 			steps {
 				dir ("${WORKSPACE}") {
 					deleteDir()
 				}
 				checkout scm
 			}
-		}
+		} */
 		stage ('Set Variables') {
 			steps {
 				script {
