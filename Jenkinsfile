@@ -4,6 +4,11 @@ isPullRequest = "${env.BRANCH_NAME}".startsWith("PR")
 ARTIFACTORY_BASE = 'http://localhost:8081/artifactory'
 artifactory_build_link = ''
 artifactory_repo_link = ''
+MVN_GROUPID = ''
+MVN_ARTIFACTID = ''
+MVN_VERSION = ''
+sonar_link = ''
+abortOnFailedQualityGate = true
 
 pipeline {
     agent any
@@ -16,8 +21,31 @@ pipeline {
 //    	VERSION = readMavenPom().getVersion()
 //	artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${IMAGE}/${VERSION}.war" 
 	}
-
-    stages {
+	options {
+		disableConcurrentBuilds()
+	}
+	stages {
+		stage ('Clean Checkout') {
+			steps {
+				dir ("${WORKSPACE}") {
+					deleteDir()
+				}
+				checkout scm
+			}
+		}
+		stage ('Set Variables') {
+			steps {
+				script {
+					def mvnPom = readMavenPom file: 'pom.xml'
+					MVN_GROUPID = "${mvnPom.groupId}"
+					if (MVN_GROUPID == null || MVN_GROUPID == '' || MVN_GROUPID == 'null') {
+						MVN_GROUPID = "${mvnPom.parent.groupId}"
+					}
+					MVN_ARTIFACTID = "${mvnPom.artifactId}"
+					MVN_VERSION = "${mvnPom.version}"
+				}
+			}
+		}
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -34,7 +62,6 @@ pipeline {
 
 				expression {isPullRequest == false}
 			}
-
 			steps {
 				rtUpload (
     				serverId: "sagoon-art1",
@@ -43,7 +70,7 @@ pipeline {
           			      "files": [
             				{				
               				  "pattern": "target/*.war",
-              				  "target": "libs-snapshot-local/${IMAGE}/"
+              				  "target": "libs-snapshot-local/${MVN_GROUPID}/${MVN_VERSION}/"
             				}
          			     ]
         			    }"""
@@ -54,19 +81,10 @@ pipeline {
             }
 	}
         stage('Ansible Deploy to server') {
-	    node {
-                def pom = readMavenPom file: "pom.xml"
-                def repoPath =  "${pom.groupId}".replace(".", "/") + 
-                                "/${pom.artifactId}"
-
-        	def version = pom.version
-
-        	if(!FULL_BUILD) { //takes the last version from repo
-            	sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/ansible-meetup/${repoPath}/maven-metadata.xml"
-            	version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
-                             returnStdout: true
-        	}	
-        	def artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${repoPath}/${version}/${pom.artifactId}-${version}.war"
+        	steps {
+                     script {
+        		def artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${MVN_GROUPID}/${MVN_VERSION}/${MVN_ARTIFACTID}-${MVN_VERSION}.war"
+		}
 
         	withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
             	    echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
