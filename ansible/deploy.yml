@@ -1,0 +1,12 @@
+---
+- name: Download & deploying Application
+  become: true
+  hosts: app_server
+  tasks:
+    - get_url:
+        force: yes
+        url: "{{ ARTIFACT_URL }}"
+        dest: "/tmp/{{ IMAGE }}.war"
+    - stat: 
+        path: "/usr/local/tomcat7/webapps/{{ IMAGE }}.war"
+
