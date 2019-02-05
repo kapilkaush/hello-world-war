@@ -6,7 +6,7 @@
     - get_url:
         force: yes
         url: "{{ ARTIFACT_URL }}"
-        dest: "/tmp/{{ IMAGE }}.war"
+        dest: "/usr/local/tomcat7/webapps/{{ IMAGE }}.war"
     - stat: 
         path: "/usr/local/tomcat7/webapps/{{ IMAGE }}.war"
 
