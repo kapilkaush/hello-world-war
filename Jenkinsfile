@@ -65,8 +65,8 @@ pipeline {
             installation: 'ansible',
             inventory: 'ansible/inventory.ini', 
             playbook: 'ansible/deploy.yml', 
-            sudo: true,
-            sudoUser: 'kadmin'
+//            sudo: true,
+//            sudoUser: 'kadmin'
 		}	
 
             }

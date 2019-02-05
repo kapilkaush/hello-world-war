@@ -1,5 +1,6 @@
 ---
 - name: Download & deploying Application
+  user: kadmin
   become: true
   hosts: app_server
   tasks:
