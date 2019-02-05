@@ -64,7 +64,7 @@ pipeline {
             ansiblePlaybook colorized: true, 
             installation: 'ansible',
             inventory: 'ansible/inventory.ini', 
-            playbook: 'ansible/deploy.yml', 
+            playbook: 'ansible/deploy.yml' 
 //            sudo: true,
 //            sudoUser: 'kadmin'
 		}	
