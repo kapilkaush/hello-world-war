@@ -14,7 +14,7 @@
     - get_url:
         force: yes
         url: "{{ lookup('env','ARTIFACT_URL') }}"
-        dest: "/usr/local/tomcat7/webapps/helloworld/{{ MVN_ARTIFACTID }}-{{ MVN_VERSION }}.war"
+        dest: "/usr/local/tomcat7/webapps/helloworld/{{ lookup('env','MVN_ARTIFACTID') }}-{{ lookup('env','MVN_VERSION') }}.war"
     - stat: 
-        path: "/usr/local/tomcat7/webapps/helloworld/{{ MVN_ARTIFACTID }}-{{ MVN_VERSION }}.war"
+        path: "/usr/local/tomcat7/webapps/helloworld/{{ lookup('env','MVN_ARTIFACTID') }}-{{ lookup('env','MVN_VERSION') }}.war"
 
