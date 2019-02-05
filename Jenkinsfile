@@ -59,14 +59,14 @@ pipeline {
             echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
 
             // install galaxy roles
-            sh "ansible-playbook -i ansible/inventory.ini ansible/deploy.yml -u kadmin"        
+          //  sh "ansible-playbook -i ansible/inventory.ini ansible/deploy.yml -u kadmin"        
 
-/*            ansiblePlaybook colorized: true, 
+            ansiblePlaybook colorized: true, 
             installation: 'ansible',
             inventory: 'ansible/inventory.ini', 
             playbook: 'ansible/deploy.yml', 
             sudo: true,
-            sudoUser: 'jenkins' */
+            sudoUser: 'kadmin'
 		}	
 
             }
