@@ -1,4 +1,7 @@
 ---
+- Name: Stoping old application
+  command: rm -rf /usr/local/tomcat7/webapps/helloworld/*
+ 
 - name: Download & deploying Application
   user: kadmin
   become: true
@@ -7,7 +10,7 @@
     - get_url:
         force: yes
         url: "{{ ARTIFACT_URL }}"
-        dest: "/usr/local/tomcat7/webapps/{{ IMAGE }}.war"
+        dest: "/usr/local/tomcat7/webapps/helloworld/{{ IMAGE }}.war"
     - stat: 
-        path: "/usr/local/tomcat7/webapps/{{ IMAGE }}.war"
+        path: "/usr/local/tomcat7/webapps/helloworld/{{ IMAGE }}.war"
 
