@@ -43,8 +43,7 @@ pipeline {
           			      "files": [
             				{				
               				  "pattern": "target/*.war",
-              				  "target": "libs-snapshot-local/${IMAGE}/${VERSION}/"
-              				  //"target": "libs-snapshot-local/com/sagoon/app/"
+              				  "target": "libs-snapshot-local/${IMAGE}/"
             				}
          			     ]
         			    }"""
