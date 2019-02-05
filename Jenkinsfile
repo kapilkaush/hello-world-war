@@ -12,7 +12,7 @@ pipeline {
     }
     environment {
 	M2_HOME = tool 'maven'
-    	IMAGE = readMavenPom().getArtifactId()
+//    	IMAGE = readMavenPom().getArtifactId()
     	VERSION = readMavenPom().getVersion()
 	artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${IMAGE}/${VERSION}/${pom.artifactId}-${VERSION}.war" 
 	}
