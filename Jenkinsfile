@@ -12,9 +12,9 @@ pipeline {
     }
     environment {
 	M2_HOME = tool 'maven'
-    	IMAGE = readMavenPom().getArtifactId()
-    	VERSION = readMavenPom().getVersion()
-	artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${IMAGE}/${VERSION}.war" 
+//    	IMAGE = readMavenPom().getArtifactId()
+//    	VERSION = readMavenPom().getVersion()
+//	artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${IMAGE}/${VERSION}.war" 
 	}
 
     stages {
@@ -53,10 +53,23 @@ pipeline {
 				)
             }
 	}
-        stage ('Ansible Deploy to server') {
-                        steps {
-			    withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${IMAGE}"]) {
-            echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
+        stage('Ansible Deploy to server') {
+	    node {
+                def pom = readMavenPom file: "pom.xml"
+                def repoPath =  "${pom.groupId}".replace(".", "/") + 
+                                "/${pom.artifactId}"
+
+        	def version = pom.version
+
+        	if(!FULL_BUILD) { //takes the last version from repo
+            	sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/ansible-meetup/${repoPath}/maven-metadata.xml"
+            	version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
+                             returnStdout: true
+        	}	
+        	def artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${repoPath}/${version}/${pom.artifactId}-${version}.war"
+
+        	withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
+            	    echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
 
             // install galaxy roles
           //  sh "ansible-playbook -i ansible/inventory.ini ansible/deploy.yml -u kadmin"        
