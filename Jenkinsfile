@@ -1,7 +1,7 @@
 //Demo pipeline by Kapil Kaushik
 
 isPullRequest = "${env.BRANCH_NAME}".startsWith("PR")
-ARTIFACTORY_BASE = 'localhost:8081/artifactory'
+ARTIFACTORY_BASE = '192.168.43.97:8081/artifactory'
 artifactory_build_link = ''
 artifactory_repo_link = ''
 MVN_GROUPID = ''
