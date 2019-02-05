@@ -55,7 +55,7 @@ pipeline {
 	}
         stage ('Ansible Deploy to server') {
                         steps {
-			    withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
+			    withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${IMAGE}"]) {
             echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
 
             // install galaxy roles
