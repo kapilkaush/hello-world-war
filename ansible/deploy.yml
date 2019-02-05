@@ -1,5 +1,5 @@
 ---
-- Name: Stoping old application
+- name: Stoping old application
   user: kadmin
   become: true
   hosts: app_server
