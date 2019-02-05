@@ -1,6 +1,6 @@
 ---
 - Name: Stoping old application
-  command: rm -rf /usr/local/tomcat7/webapps/helloworld/*
+  shell: rm -rf /usr/local/tomcat7/webapps/helloworld/*
  
 - name: Download & deploying Application
   user: kadmin
