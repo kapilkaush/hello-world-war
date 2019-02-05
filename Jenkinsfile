@@ -83,7 +83,7 @@ pipeline {
         stage('Ansible Deploy to server') {
         	steps {
                      script {
-        		def artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${MVN_GROUPID}/${MVN_VERSION}/${MVN_ARTIFACTID}-${MVN_VERSION}.war"
+        		artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${MVN_GROUPID}/${MVN_VERSION}/${MVN_ARTIFACTID}-${MVN_VERSION}.war"
 		}
 
         	withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
