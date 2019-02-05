@@ -13,8 +13,8 @@
   tasks:
     - get_url:
         force: yes
-        url: "{{ ARTIFACT_URL }}"
-        dest: "/usr/local/tomcat7/webapps/helloworld/{{ IMAGE }}.war"
+        url: "{{ lookup('env','ARTIFACT_URL') }}"
+        dest: "/usr/local/tomcat7/webapps/helloworld/{{ MVN_ARTIFACTID }}-{{ MVN_VERSION }}.war"
     - stat: 
-        path: "/usr/local/tomcat7/webapps/helloworld/{{ IMAGE }}.war"
+        path: "/usr/local/tomcat7/webapps/helloworld/{{ MVN_ARTIFACTID }}-{{ MVN_VERSION }}.war"
 
