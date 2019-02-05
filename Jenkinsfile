@@ -1,10 +1,6 @@
+//Demo pipeline by Kapil Kaushik
 
 isPullRequest = "${env.BRANCH_NAME}".startsWith("PR")
-MVN_GROUPID = ''
-MVN_VERSION = ''
-MVN_ARTIFACTID = ''
-tokens = "${env.JOB_NAME}".tokenize('/')
-repoOrg = tokens[0]
 ARTIFACTORY_BASE = 'http://localhost:8081/artifactory'
 artifactory_build_link = ''
 artifactory_repo_link = ''
@@ -16,8 +12,11 @@ pipeline {
     }
     environment {
 	M2_HOME = tool 'maven'
-    }
-    
+    	IMAGE = readMavenPom().getArtifactId()
+    	VERSION = readMavenPom().getVersion()
+	artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${IMAGE}/${VERSION}/${pom.artifactId}-${VERSION}.war" 
+	}
+
     stages {
         stage('Build') {
             steps {
@@ -28,7 +27,12 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
+        }
 	stage ('Artifactory') {
 
 			when {
@@ -45,39 +49,36 @@ pipeline {
           			      "files": [
             				{				
               				  "pattern": "target/*.war",
-              				  "target": "libs-snapshot-local/com/sagoon/app/"
+              				  "target": "libs-snapshot-local/${IMAGE}/${VERSION}/"
+              				  //"target": "libs-snapshot-local/com/sagoon/app/"
             				}
          			     ]
         			    }"""
 				)
-/*				rtMavenResolver (
-			    		id: 'resolver-unique-id',
-    					serverId: 'sagoon-art1',
-    					releaseRepo: 'libs-release',
-    					snapshotRepo: 'libs-snapshot'
-				)  
- 
-				rtMavenDeployer (
-    					id: 'deployer-unique-id',
-    					serverId: 'sagoon-art1',
-    					releaseRepo: 'libs-release-local',
-    					snapshotRepo: "libs-snapshot-local"
-				)
-				rtMavenRun (
-				// Tool name from Jenkins configuration.
-    					tool: "${M2_HOME}/bin/mvn",
-    					pom: 'pom.xml',
-    					goals: 'clean install',
-    					// Maven options.
-    					//opts: '-Xms1024m -Xmx4096m',
-    					resolverId: 'resolver-unique-id',
-    					deployerId: 'deployer-unique-id',
-				) */	
 				rtPublishBuildInfo (
     					serverId: "sagoon-art1"
 				)
-
             }
 	}
+        stage ('Ansible Deploy to server') {
+                        steps {
+			    withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
+            echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
+
+            // install galaxy roles
+            sh "ansible-playbook provision/requirements.yml -p provision/roles/"        
+
+            ansiblePlaybook colorized: true, 
+            credentialsId: 'ssh-jenkins',
+            limit: "${HOST_PROVISION}",
+            installation: 'ansible',
+            inventory: 'provision/inventory.ini', 
+            playbook: 'provision/playbook.yml', 
+            sudo: true,
+            sudoUser: 'jenkins'
+}	
+
+            }
+        }
     }
 }
