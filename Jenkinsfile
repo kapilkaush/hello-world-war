@@ -96,9 +96,12 @@ pipeline {
           //  sh "ansible-playbook -i ansible/inventory.ini ansible/deploy.yml -u kadmin"        
 
             ansiblePlaybook colorized: true, 
-            installation: 'ansible',
-            inventory: 'ansible/inventory.ini', 
-            playbook: 'ansible/deploy.yml' 
+            	installation: 'ansible',
+            	inventory: 'ansible/inventory.ini', 
+            	playbook: 'ansible/deploy.yml' 
+	    	extraVars   : [
+                        ARTIFACT_URL: "${artifactUrl}",
+                            ]
 //            sudo: true,
 //            sudoUser: 'kadmin'
 		}	
