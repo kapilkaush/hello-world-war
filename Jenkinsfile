@@ -87,7 +87,7 @@ pipeline {
 
         		withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${MVN_ARTIFACTID}"]) {
             	    	echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
-		}
+//		}
 
 //        	withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${MVN_ARTIFACTID}"]) {
 //            	    echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
@@ -105,7 +105,7 @@ pipeline {
 //            sudo: true,
 //            sudoUser: 'kadmin'
 		}	
-
+	      }
             }
         }
     }
