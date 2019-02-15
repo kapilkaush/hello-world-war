@@ -18,6 +18,5 @@
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
 
-  handlers:
-    - name: restart tomcat
-      shell: sudo service tomcat stop && sudo service tomcat start 
+- name: restart tomcat
+  shell: sudo service tomcat stop && sudo service tomcat start 
