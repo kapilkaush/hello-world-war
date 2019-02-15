@@ -23,4 +23,4 @@
   become: true
   hosts: app_server
   tasks:
-    - shell: "service tomcat stop; service tomcat start"
+    - shell: /etc/init.d/tomcat stop; /etc/init.d/tomcat start
