@@ -17,4 +17,5 @@
         dest: "/usr/local/tomcat7/webapps/helloworld/"
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
+  notify: restart tomcat
 
