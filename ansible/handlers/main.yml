@@ -1,0 +1,3 @@
+---
+- name: restart tomcat
+  shell: sudo service tomcat restart && sudo service tomcat start
