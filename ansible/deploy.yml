@@ -18,6 +18,8 @@
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
 
-- name: restart tomcat
+- name: restarting tomcat
+  user: kadmin
+  hosts: app_server
   tasks:
-    - shell: sudo service tomcat stop && sudo service tomcat start 
+    - shell: "sudo service tomcat stop && sudo service tomcat start"
