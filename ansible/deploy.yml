@@ -20,4 +20,4 @@
 
   handlers:
     - name: restart tomcat
-      shell: sudo service tomcat restart && sudo service tomcat start 
+      shell: sudo service tomcat stop && sudo service tomcat start 
