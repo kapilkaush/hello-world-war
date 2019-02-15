@@ -17,5 +17,7 @@
         dest: "/usr/local/tomcat7/webapps/helloworld/"
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
-  notify: restart tomcat
 
+  handlers:
+    - name: restart tomcat
+      shell: sudo service tomcat restart && sudo service tomcat start 
