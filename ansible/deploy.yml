@@ -30,4 +30,4 @@
   become: true
   hosts: app_server
   tasks:
-    - shell: /etc/init.d/tomcat start
+    - shell: sudo /etc/init.d/tomcat start
