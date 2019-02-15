@@ -18,9 +18,16 @@
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
 
-- name: restarting tomcat
+- name: stop tomcat
   user: kadmin
   become: true
   hosts: app_server
   tasks:
-    - shell: /etc/init.d/tomcat stop; /etc/init.d/tomcat start
+    - shell: /etc/init.d/tomcat stop
+
+- name: start tomcat
+  user: kadmin
+  become: true
+  hosts: app_server
+  tasks:
+    - shell: /etc/init.d/tomcat start
