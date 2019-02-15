@@ -29,5 +29,6 @@
   user: kadmin
   become: true
   hosts: app_server
-  tasks:
-    - shell: sudo /etc/init.d/tomcat start
+  shell: |
+    cd /usr/local/tomcat7/bin  
+    sudo ./catalina.sh start
