@@ -17,17 +17,3 @@
         dest: "/usr/local/tomcat7/webapps/helloworld/"
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
-
-- name: stop tomcat
-  user: kadmin
-  become: true
-  hosts: app_server
-  tasks:
-    - shell: /etc/init.d/tomcat stop
-
-- name: stop tomcat
-  user: kadmin
-  become: true
-  hosts: app_server
-  tasks:
-    - shell: /usr/local/tomcat7/bin/catalina.sh start
