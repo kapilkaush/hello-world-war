@@ -20,6 +20,7 @@
 
 - name: restarting tomcat
   user: kadmin
+  become: true
   hosts: app_server
   tasks:
-    - shell: "sudo service tomcat stop && sudo service tomcat start"
+    - shell: "service tomcat stop && service tomcat start"
