@@ -25,6 +25,9 @@
   tasks:
     - shell: /etc/init.d/tomcat stop
 
-- command: "{{ item }} chdir=/usr/local/tomcat7/bin"
-  with_items:
-  - sudo ./catalina.sh start
+- name: stop tomcat
+  user: kadmin
+  become: true
+  hosts: app_server
+  tasks:
+    - shell: /usr/local/tomcat7/bin/catalina.sh start
