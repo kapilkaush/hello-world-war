@@ -85,7 +85,7 @@ pipeline {
                      script {
         		artifactUrl = "http://${ARTIFACTORY_BASE}/libs-snapshot-local/${MVN_GROUPID}/1.0-SNAPSHOT-${env.BUILD_NUMBER}/${MVN_ARTIFACTID}-1.0-SNAPSHOT-${env.BUILD_NUMBER}.war"
 
-        		withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${MVN_ARTIFACTID}"]) {
+        		withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${MVN_ARTIFACTID}", "WAR_FILE=${MVN_ARTIFACTID}-1.0-SNAPSHOT-${env.BUILD_NUMBER}.war"]) {
             	    	echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
 
             // install galaxy roles

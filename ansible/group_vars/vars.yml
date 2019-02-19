@@ -1,2 +1,3 @@
 ---
 ARTIFACT_URL: {{ ARTIFACT_URL }}
+WAR_FILE: {{ WAR_FILE }}
