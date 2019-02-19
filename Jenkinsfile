@@ -99,7 +99,7 @@ pipeline {
 //                        ARTIFACT_URL: "${artifactUrl}",
 //                            ]
 //            sudo: true,
-//            sudoUser: 'kadmin'
+//            sudoUser: 'padmin'
 		}	
 	      }
             }
