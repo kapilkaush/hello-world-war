@@ -5,6 +5,10 @@
 #  hosts: app_server
 #  tasks:
 #    - shell: rm -rf /usr/local/tomcat7/webapps/helloworld/*
+
+- name: Include vars.
+  include_vars:
+    dir: group_vars/vars.yml
  
 - name: Download & deploying Application
   user: kadmin
@@ -17,10 +21,6 @@
         dest: "/usr/local/tomcat7/webapps/helloworld/"
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
-
-- name: Include vars.
-  include_vars:
-    dir: group_vars/vars.yml
 
 - name: Deploying WAR file
   user: kadmin
