@@ -18,7 +18,10 @@
     - stat: 
         path: "/usr/local/tomcat7/webapps/helloworld/"
 
-- name: Extracting WAR file
+- name: include vars
+  import: group_vars/vars.yml
+
+- name: Deploying WAR file
   user: kadmin
   become: true
   hosts: app_server
