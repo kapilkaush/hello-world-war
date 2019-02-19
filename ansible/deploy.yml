@@ -6,10 +6,6 @@
 #  tasks:
 #    - shell: rm -rf /usr/local/tomcat7/webapps/helloworld/*
 
-- name: Include vars.
-  include_vars:
-    dir: group_vars/vars.yml
- 
 - name: Download & deploying Application
   user: kadmin
   become: true
@@ -27,4 +23,4 @@
   become: true
   hosts: app_server
   tasks:
-    - shell: rm -rf /usr/local/tomcat7/webapps/helloworld3/ && unzip /usr/local/tomcat7/webapps/helloworld/{{ WAR_FILE }} -d /usr/local/tomcat7/webapps/helloworld3/
+    - shell: rm -rf /usr/local/tomcat7/webapps/helloworld3/ && unzip /usr/local/tomcat7/webapps/helloworld/{{ lookup('env','WAR_FILE') }} -d /usr/local/tomcat7/webapps/helloworld3/
