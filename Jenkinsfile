@@ -76,8 +76,9 @@ pipeline {
         			    }"""
 				)
 				rtBuildInfo (
-				    maxBuilds: 2,
-				    deleteBuildArtifacts: true
+				    	maxBuilds: 2,
+					maxDays: 1,
+				    	deleteBuildArtifacts: true
 				)
 				rtPublishBuildInfo (
     					serverId: "sagoon-art1"
