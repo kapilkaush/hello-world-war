@@ -75,14 +75,15 @@ pipeline {
          			     ]
         			    }"""
 				)
-				rtBuildInfo (
-				    	maxBuilds: 2,
-					maxDays: 1,
-				    	deleteBuildArtifacts: true
-				)
 				rtPublishBuildInfo (
     					serverId: "sagoon-art1"
 				)
+                                rtBuildInfo (
+                                        maxBuilds: 2,
+                                        maxDays: 1,
+                                        deleteBuildArtifacts: true
+                                )
+
             }
 	}
         stage('Ansible Deploy to server') {
